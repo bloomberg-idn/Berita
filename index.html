@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>BLOOMBERG - Berita Terbaru Seputar Indonesia</title>
+  <meta name="description" content="BLOOMBERG menyajikan berita terbaru, tajam, dan terpercaya seputar ekonomi, politik, bisnis, teknologi, dan peristiwa penting di Indonesia.">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0073ff;
+      --primary-dark: #004fa8;
+      --accent: #ffb100;
+      --bg: #0b1120;
+      --card-bg: #0f172a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.55);
+      --radius-xl: 18px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Layout */
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(15,23,42,0.97), rgba(15,23,42,0.85), transparent);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 16px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
+      background: radial-gradient(circle at 30% 0, #ffffff 0, #fed7aa 18%, #ea580c 55%, #7c2d12 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 25px rgba(248, 113, 22, 0.5);
+      font-weight: 800;
+      font-size: 18px;
+      color: #020617;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-text span:first-child {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+    }
+
+    .brand-text span:last-child {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--accent), var(--primary));
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #e5e7eb;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 16px;
+      border: 1px solid rgba(148,163,184,0.4);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #eff6ff;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.68);
+    }
+
+    .btn-pill-icon {
+      font-size: 15px;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 10px auto 32px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .hero-main-card {
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(96,165,250,0.5), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(248,250,252,0.08), transparent 55%),
+                  var(--card-bg);
+      padding: 22px 22px 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148,163,184,0.24);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.28);
+      color: #e5e7eb;
+      width: fit-content;
+    }
+
+    .hero-kicker span.badge-live {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(248,113,22,0.15);
+      color: #fed7aa;
+      font-size: 11px;
+    }
+
+    .hero-title {
+      font-size: clamp(26px, 3.1vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .hero-metadata {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-metadata span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background-color: rgba(148,163,184,0.9);
+    }
+
+    .hero-actions {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .hero-secondary-link {
+      font-size: 12px;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-secondary-link span.icon {
+      font-size: 14px;
+    }
+
+    .hero-tagline {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .headline-card {
+      border-radius: var(--radius-xl);
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.24);
+      padding: 14px 14px 13px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .headline-tag {
+      font-size: 10px;
+      font-weight: 600;
+      color: #f97316;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 2px;
+    }
+
+    .headline-card h3 {
+      font-size: 13px;
+      margin-bottom: 3px;
+      font-weight: 600;
+    }
+
+    .headline-snippet {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .headline-thumb {
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 30% 0, #e5e7eb 0, #64748b 36%, #020617 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .headline-label {
+      position: absolute;
+      bottom: 6px;
+      left: 8px;
+      right: 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.88);
+      padding: 2px 6px;
+      text-align: center;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #e5e7eb;
+    }
+
+    .hero-side-card {
+      border-radius: 22px;
+      background: radial-gradient(circle at top, rgba(52,211,153,0.35), transparent 55%),
+                  radial-gradient(circle at bottom, rgba(59,130,246,0.26), transparent 65%),
+                  #020617;
+      padding: 16px 16px 14px;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-kicker {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #bbf7d0;
+    }
+
+    .side-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .side-snippet {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .side-badge-ribbon {
+      position: absolute;
+      top: 10px;
+      right: -40px;
+      transform: rotate(35deg);
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #ecfdf5;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 6px 56px;
+      text-align: center;
+      box-shadow: 0 12px 24px rgba(22,163,74,0.7);
+    }
+
+    .side-meta {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #bbf7d0;
+      align-items: center;
+    }
+
+    .side-meta span:nth-child(2) {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    /* Content sections */
+
+    .content-wrapper {
+      max-width: 1120px;
+      margin: 0 auto 32px;
+      padding: 0 16px 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.3fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .pill-filter {
+      display: inline-flex;
+      gap: 6px;
+      background: rgba(15,23,42,0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      padding: 2px;
+      font-size: 11px;
+    }
+
+    .pill-filter button {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .pill-filter button.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #eff6ff;
+    }
+
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .news-card {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px;
+      border-radius: var(--radius-lg);
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(30,64,175,0.35);
+    }
+
+    @media (max-width: 600px) {
+      .news-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .news-thumb {
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 0, #f97316 0, #ea580c 30%, #111827 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.92);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #e5e7eb;
+    }
+
+    .news-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .news-meta {
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .news-meta strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .news-snippet {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Sidebar */
+
+    .sidebar-card {
+      border-radius: 20px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.3);
+      padding: 16px 14px 16px;
+      box-shadow: 0 14px 35px rgba(15,23,42,0.9);
+    }
+
+    .sidebar-card + .sidebar-card {
+      margin-top: 14px;
+    }
+
+    .sidebar-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .category-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .category-list li a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: radial-gradient(circle at top left, rgba(30,64,175,0.48), transparent 70%);
+      color: #e5e7eb;
+    }
+
+    .category-badge {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .newsletter-form {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .newsletter-form input {
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .newsletter-form small {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Footer */
+
+    footer {
+      border-top: 1px solid rgba(31,41,55,1);
+      background: #020617;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 16px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+    }
+
+    .footer-links a:hover {
+      color: #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="logo-badge">CB</div>
+        <div class="brand-text">
+          <span>BLOOMBERG</span>
+          <span>INDONESIA NEWSROOM</span>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="#terkini">Terkini</a>
+        <a href="#ekonomi">Ekonomi</a>
+        <a href="#nasional">Nasional</a>
+        <a href="#teknologi">Teknologi</a>
+        <a href="#newsletter">Newsletter</a>
+      </div>
+
+      <div class="nav-cta">
+        <button class="btn" type="button">
+          <span class="btn-pill-icon">🔍</span> Cari berita
+        </button>
+        <button class="btn btn-primary" type="button">
+          Langganan Gratis
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero" id="terkini">
+      <div class="hero-main-card">
+        <div class="hero-kicker">
+          <span class="badge-live">●</span>
+          <span>Breaking Insight • Indonesia Hari Ini</span>
+        </div>
+
+        <h1 class="hero-title">
+          BLOOMBERG <span>INDONESIA</span> — Satu Layar, Ribuan Cerita Negeri.
+        </h1>
+
+        <p class="hero-subtitle">
+          Dari dinamika politik di Senayan, pergerakan ekonomi di bursa, hingga kisah kecil di daerah yang layak
+          mendapat sorotan nasional. Kami merangkum berita dengan bahasa yang lugas, data yang jelas, dan konteks yang mudah dipahami.
+        </p>
+
+        <div class="hero-metadata">
+          <span><span class="dot"></span> Update real-time dari berbagai kota besar & daerah.</span>
+          <span><span class="dot"></span> Tim redaksi tersertifikasi, mengutamakan akurasi dan verifikasi.</span>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button">
+            Baca Berita Utama Hari Ini
+          </button>
+          <a href="#about" class="hero-secondary-link">
+            <span class="icon">⟶</span> Kenali cara kami bekerja
+          </a>
+        </div>
+
+        <p class="hero-tagline">
+          Fokus kami sederhana: menjelaskan apa yang terjadi, mengapa penting, dan apa dampaknya bagi pembaca di Indonesia.
+        </p>
+
+        <div class="hero-grid">
+          <article class="headline-card">
+            <div>
+              <div class="headline-tag">Fokus Ekonomi</div>
+              <h3>Investor Global Melirik Proyek Hijau di Indonesia, Apa Artinya bagi Dompet Warga?</h3>
+              <p class="headline-snippet">
+                CNBCTimes Indonesia mengulas bagaimana arus investasi baru dapat mempengaruhi harga kebutuhan,
+                lapangan kerja, dan peluang usaha kecil di berbagai daerah.
+              </p>
+            </div>
+            <div class="headline-thumb">
+              <div class="headline-label">Analisis Redaksi</div>
+            </div>
+          </article>
+
+          <article class="hero-side-card">
+            <div class="side-badge-ribbon">Verified Newsroom</div>
+            <div>
+              <div class="side-kicker">Data • Konteks • Narasi</div>
+              <p class="side-title">
+                Setiap berita yang tayang melalui tiga lapis cek: fakta, sumber, dan dampak bagi publik.
+              </p>
+              <p class="side-snippet">
+                Kami memadukan laporan lapangan, data resmi, dan pandangan ahli agar pembaca tidak hanya menerima
+                informasi, tetapi juga pemahaman utuh tentang situasi yang dibahas.
+              </p>
+            </div>
+            <div class="side-meta">
+              <span>Didukung jurnalis di berbagai kota.</span>
+              <span>Standar kerja transparan.</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="content-wrapper">
+
+      <!-- MAIN COLUMN -->
+      <div>
+
+        <!-- TERKINI -->
+        <section class="section" id="nasional">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Berita Nasional Terkini</h2>
+              <p class="section-subtitle">
+                Sorotan utama dari berbagai daerah: kebijakan baru, dinamika sosial, hingga peristiwa yang
+                mengubah kehidupan warga.
+              </p>
+            </div>
+            <div class="pill-filter">
+              <button class="active" type="button">Hari ini</button>
+              <button type="button">7 hari terakhir</button>
+            </div>
+          </div>
+
+          <div class="news-list">
+            <article class="news-card">
+              <div class="news-thumb">
+                <span class="news-tag">Kebijakan Publik</span>
+              </div>
+              <div>
+                <h3 class="news-title">
+                  Pemerintah Uji Coba Skema Transportasi Terintegrasi di Tiga Kota Besar
+                </h3>
+                <p class="news-meta">
+                  <strong>BLOOMBERG</strong> • 20 menit yang lalu • Jakarta
+                </p>
+                <p class="news-snippet">
+                  Program ini dirancang untuk mengurangi kemacetan, memperbaiki akses transportasi umum,
+                  dan menekan biaya mobilitas harian warga. Kami menjelaskan bagaimana skema ini
+                  bekerja dan tahap implementasinya.
+                </p>
+              </div>
+            </article>
+
+            <article class="news-card">
+              <div class="news-thumb">
+                <span class="news-tag">Human Story</span>
+              </div>
+              <div>
+                <h3 class="news-title">
+                  Di Balik Angka Inflasi: Cerita Pelaku Usaha Kecil Menyesuaikan Diri dengan Harga Baru
+                </h3>
+                <p class="news-meta">
+                  <strong>Laporan Lapangan</strong> • 55 menit yang lalu • Surabaya & Makassar
+                </p>
+                <p class="news-snippet">
+                  Tim kami mengunjungi beberapa pelaku usaha kecil di pasar tradisional dan sentra UMKM.
+                  Mereka bercerita bagaimana menyiasati kenaikan bahan baku tanpa kehilangan pelanggan setia.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- EKONOMI -->
+        <section class="section" id="ekonomi">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Ekonomi & Bisnis</h2>
+              <p class="section-subtitle">
+                Memahami pergerakan angka, tanpa bahasa yang rumit. Cocok untuk pelaku usaha, pekerja kantor,
+                maupun pembaca umum yang ingin tahu arah ekonomi Indonesia.
+              </p>
+            </div>
+          </div>
+
+          <div class="news-list">
+            <article class="news-card">
+              <div class="news-thumb">
+                <span class="news-tag">Pasar & Investasi</span>
+              </div>
+              <div>
+                <h3 class="news-title">
+                  Generasi Muda Mulai Melirik Investasi Jangka Panjang, Apa Risiko dan Peluangnya?
+                </h3>
+                <p class="news-meta">
+                  <strong>BLOOMBERG Insight</strong> • 2 jam yang lalu
+                </p>
+                <p class="news-snippet">
+                  Kami mengulas tren baru di kalangan pekerja muda Indonesia yang mulai disiplin mencatat
+                  pengeluaran dan mengenal instrumen investasi secara bertahap, bukan ikut-ikutan tren sesaat.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="section" id="about">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Tentang BLOOMBERG</h2>
+              <p class="section-subtitle">
+                Redaksi digital yang lahir dari kebutuhan akan berita yang cepat namun tetap bertanggung jawab.
+              </p>
+            </div>
+          </div>
+
+          <div class="news-list">
+            <article class="news-card">
+              <div class="news-thumb">
+                <span class="news-tag">Redaksi</span>
+              </div>
+              <div>
+                <h3 class="news-title">
+                  Cara Kami Memverifikasi Informasi Sebelum Tayang
+                </h3>
+                <p class="news-meta">
+                  <strong>Proses Editorial</strong> • Diperbarui berkala
+                </p>
+                <p class="news-snippet">
+                  Setiap informasi yang kami terima melalui koresponden, rilis resmi, maupun narasumber independen
+                  akan melewati proses cek silang. Kami berpegang pada prinsip: lebih baik terlambat beberapa menit
+                  daripada menyebarkan informasi yang belum pasti kebenarannya.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside>
+        <div class="sidebar-card" id="teknologi">
+          <h3 class="sidebar-title">Kategori Populer</h3>
+          <p class="sidebar-subtitle">
+            Pilihan kanal yang paling sering diakses pembaca dalam beberapa hari terakhir.
+          </p>
+          <ul class="category-list">
+            <li>
+              <a href="#ekonomi">
+                <span>Ekonomi & Bisnis</span>
+                <span class="category-badge">Fokus data</span>
+              </a>
+            </li>
+            <li>
+              <a href="#nasional">
+                <span>Nasional</span>
+                <span class="category-badge">Lapangan</span>
+              </a>
+            </li>
+            <li>
+              <a href="#teknologi">
+                <span>Teknologi</span>
+                <span class="category-badge">Inovasi</span>
+              </a>
+            </li>
+            <li>
+              <a href="#terkini">
+                <span>Breaking News</span>
+                <span class="category-badge">Real-time</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card" id="newsletter">
+          <h3 class="sidebar-title">Newsletter Pagi BLOOMBERG</h3>
+          <p class="sidebar-subtitle">
+            Ringkasan berita penting Indonesia dan dunia, dikirim ke email Anda setiap pagi kerja.
+          </p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Masukkan email Anda" />
+            <button class="btn btn-primary" type="button">Daftar Newsletter</button>
+            <small>
+              Dengan mendaftar, Anda menyetujui untuk menerima ringkasan berita pilihan.
+              Kami tidak akan membagikan alamat email Anda ke pihak lain.
+            </small>
+          </form>
+        </div>
+      </aside>
+
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        © <span id="year"></span> BLOOMBERG. Semua hak cipta dilindungi.
+      </div>
+      <div class="footer-links">
+        <a href="#about">Tentang Redaksi</a>
+        <a href="#newsletter">Kebijakan Email</a>
+        <a href="#terkini">Berita Terkini</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
